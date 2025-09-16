@@ -7,38 +7,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.edu.unlpam.ing.TP2.interfaces.LibroInterface;
 import ar.edu.unlpam.ing.TP2.model.Libro;
+import ar.edu.unlpam.ing.TP2.Service.LibroService;
+
 
 @RestController
-@RequestMapping("/libros")
 public class LibroController {
-    private final LibroInterface service;
 
-    public LibroController(LibroInterface service) {
-        this.service = service;
+    /*Otra idea que se me ocurrió es que Gesto tuviera todos sus método estáticos y el atributo List también. */
+    private LibroService g = new LibroService();
+
+    @GetMapping("/libros")
+    public List<Libro> getLibros() {
+        return g.listar();
     }
 
-    @GetMapping
-    public List<Libro> listar(){
-        return service.listarLibros();
+    @PostMapping("/libros")
+    public void postLibro(@RequestBody Libro nuevoLibro) {
+        g.agregar(nuevoLibro);
+    } 
+
+    @GetMapping("/libros/{id}")
+    public Libro getLibro(@PathVariable int id) {
+        return g.buscar(id);
     }
 
-    @PostMapping
-    public void agregar(@RequestBody Libro libro){
-        service.agregarLibro(libro);
-    }
-
-    @GetMapping("/{id}")
-    public Libro obtenerPorId(@PathVariable int id){
-        return service.obtenerLibroPorId(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable int id){
-        service.eliminarLibro(id);
-    }
+    @DeleteMapping("/libros/{id}")
+    public String deleteLibro(@PathVariable int id) {
+        return g.eliminar(id);
+    }    
 }

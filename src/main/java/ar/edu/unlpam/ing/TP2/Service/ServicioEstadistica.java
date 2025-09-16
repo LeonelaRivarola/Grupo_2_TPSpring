@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.edu.unlpam.ing.TP2.interfaces.EstadisticasInterface;
+import ar.edu.unlpam.ing.TP2.interfaces.iEstadistica;
 import ar.edu.unlpam.ing.TP2.model.NumerosRequest;
 
 @Service
-public class EstadisticasService implements EstadisticasInterface{
+public class ServicioEstadistica implements iEstadistica{
 
     @Override
     public double promedio(NumerosRequest request) {
@@ -20,7 +20,7 @@ public class EstadisticasService implements EstadisticasInterface{
             return promedio;
         }
         else{
-            return promedio = numeros.stream().mapToInt(Integer::intValue).average().orElse(0);
+            return promedio = numeros.stream().mapToInt(Integer::intValue).average().orElse(0); //calcula el promedio
         }
     }
 
